@@ -1,6 +1,6 @@
 workflows:
   android_ios_release:
-    name: Android & iOS Release Build
+    name: iOS Release Build
     environment:
       flutter: stable
       xcode: latest      # needed for iOS build
