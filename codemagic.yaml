@@ -1,31 +1,33 @@
 workflows:
-  ios-workflow:
-    name: iOS Workflow
-    integrations:
-      app_store_connect: MyAppStoreKey  # your actual integration key name here
-
+  ios-release:
+    name: iOS Release Build
+    max_build_duration: 60
+    instance_type: mac_mini_m1
     environment:
       flutter: stable
       xcode: latest
-      cocoapods: default
-
+      vars:
+        APP_ID: "com.example.app" # Your app bundle ID
+      groups:
+        - app_store_credentials  # Contains Apple API key, issuer ID, key ID
+        - ios_signing            # Contains certificate and provisioning profile
     scripts:
       - name: Install dependencies
-        script: flutter pub get
+        script: |
+          flutter pub get
 
       - name: Build iOS Release
-        script: flutter build ios --release --no-codesign
+        script: |
+          flutter build ipa --release \
+            --build-name=1.0.0 \
+            --build-number=1
 
     artifacts:
-      - build/ios/iphoneos/Runner.ipa
+      - build/ios/ipa/*.ipa
 
     publishing:
       app_store_connect:
-        auth: integration
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
         submit_to_testflight: true
-        expire_build_submitted_for_review: true
-        beta_groups:
-          - Internal Testers
-        submit_to_app_store: false        # or just omit this line
-        # Remove cancel_previous_submissions and phased_release options
-
