@@ -26,6 +26,6 @@ workflows:
         expire_build_submitted_for_review: true
         beta_groups:
           - Internal Testers
-        submit_to_app_store: false
-        cancel_previous_submissions: false
-        phased_release: true
+        submit_to_app_store: false        # or just omit this line
+        # Remove cancel_previous_submissions and phased_release options
+
