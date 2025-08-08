@@ -1,19 +1,22 @@
 workflows:
-  ios-release:
-    name: iOS Release Build
+  android_ios_release:
+    name: Android & iOS Release Build
     environment:
       flutter: stable
-      xcode: latest
-      cocoapods: default
+      xcode: latest      # needed for iOS build
+      cocoapods: default # needed for iOS build
     scripts:
       - name: Install dependencies
         script: flutter pub get
+
+      # Android build
+      - name: Build Android release APK
+        script: flutter build apk --release
+
+      # iOS build (no codesign, you will need to sign manually if deploying device)
       - name: Build iOS release
         script: flutter build ios --release --no-codesign
+
     artifacts:
-      - build/ios/iphoneos/Runner.app
-      - build/ios/iphoneos/Runner.ipa
-    publishing:
-      email:
-        recipients:
-          - nim.rathana11@gmail.com
+      - build/app/outputs/flutter-apk/app-release.apk  # Android APK output path
+      - build/ios/iphoneos/Runner.ipa           
