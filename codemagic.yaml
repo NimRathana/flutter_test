@@ -9,14 +9,14 @@ workflows:
       - name: Install dependencies
         script: flutter pub get
 
-      # Android build
-      - name: Build Android release APK
-        script: flutter build apk --release
+      # # Android build
+      # - name: Build Android release APK
+      #   script: flutter build apk --release
 
       # iOS build (no codesign, you will need to sign manually if deploying device)
       - name: Build iOS release
         script: flutter build ios --release --no-codesign
 
     artifacts:
-      - build/app/outputs/flutter-apk/app-release.apk  # Android APK output path
+      # - build/app/outputs/flutter-apk/app-release.apk  
       - build/ios/iphoneos/Runner.ipa           
