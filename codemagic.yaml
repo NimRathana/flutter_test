@@ -1,22 +1,16 @@
 workflows:
-  android_ios_release:
+  ios_release:
     name: iOS Release Build
     environment:
       flutter: stable
-      xcode: latest      # needed for iOS build
-      cocoapods: default # needed for iOS build
+      xcode: latest
+      cocoapods: default
     scripts:
       - name: Install dependencies
         script: flutter pub get
 
-      # # Android build
-      # - name: Build Android release APK
-      #   script: flutter build apk --release
-
-      # iOS build (no codesign, you will need to sign manually if deploying device)
       - name: Build iOS release
         script: flutter build ios --release --no-codesign
 
     artifacts:
-      # - build/app/outputs/flutter-apk/app-release.apk  
-      - build/ios/iphoneos/Runner.ipa           
+      - build/ios/iphoneos/Runner.ipa
