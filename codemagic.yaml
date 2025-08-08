@@ -1,16 +1,31 @@
 workflows:
-  ios_release:
-    name: iOS Release Build
+  ios-workflow:
+    name: iOS Workflow
+    integrations:
+      app_store_connect: MyAppStoreKey  # your actual integration key name here
+
     environment:
       flutter: stable
       xcode: latest
       cocoapods: default
+
     scripts:
       - name: Install dependencies
         script: flutter pub get
 
-      - name: Build iOS release
+      - name: Build iOS Release
         script: flutter build ios --release --no-codesign
 
     artifacts:
       - build/ios/iphoneos/Runner.ipa
+
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        expire_build_submitted_for_review: true
+        beta_groups:
+          - Internal Testers
+        submit_to_app_store: false
+        cancel_previous_submissions: false
+        phased_release: true
